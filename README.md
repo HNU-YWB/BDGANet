@@ -1,15 +1,7 @@
 # BDGANet: Bidirectional Difference-Perception Geometry-Appearance
 # Interaction Network for Light Field Deraining
 
-Official implementation of the paper **"BDGANet: Bidirectional Difference-Perception Network for Light Field Deraining with Geometry-Appearance Interaction"** (submitted to Neurocomputing).
-
-BDGANet jointly restores rain-free geometry (depth) and clean appearance for 4D light fields under rain degradation:
-
-- **DA-RERP** — Depth-Assisted Rain Edge-Region Predictor: accurate rain-mask localization via adaptive-threshold rain prediction, boundary-aware edge enhancement (reverse attention) and depth-guided dynamic region enhancement.
-- **GAID** — Geometry-Appearance Interactive Derainer: a geometry reconstructor (RADepth-style) restores rain-free depth; a depth-guided appearance reconstructor (DGSE + AVAA) restores the clean center view.
-- **Bidirectional Difference-Perception** — geometry-difference perception feeds appearance errors back to depth refinement, while appearance-difference perception reweights the geometry objective toward regions with unsatisfactory deraining.
-- **AVAA** — Adaptive View Aggregation Attention: selectively aggregates informative sub-aperture views and suppresses rain-corrupted / redundant ones.
-
+Official implementation of the paper **"BDGANet: Bidirectional Difference-Perception Network for Light Field Deraining with Geometry-Appearance Interaction"** 
 ## 1. Environment
 
 - Python >= 3.8, PyTorch >= 1.12, CUDA 11.6+ (tested on a single NVIDIA RTX 4090)
