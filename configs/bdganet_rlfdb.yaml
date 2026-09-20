@@ -1,0 +1,57 @@
+# BDGANet training config for RLFDB / RLMB
+seed: 42
+
+model:
+  name: BDGANet
+  in_ch: 3
+  base_ch: 64          # appearance branch base channels
+  mask_ch: 64          # DA-RERP base channels
+  depth_ch: 32         # geometry reconstructor base channels
+  bottleneck_ch: 16    # AVAA low-dim bottleneck channels
+  angular_u: 5
+  angular_v: 5
+  center_view: 12      # index of center SAI in 5x5 grid
+
+data:
+  root: ./data/RLFDB    # dataset root, see README for directory layout
+  train_split: train
+  test_split: test
+  patch_size: 128
+  num_workers: 4
+  use_gt_depth: true    # use depth_gt.npy if available (fallback: depth_est.npy)
+  precompute_depth: true # expect precomputed depth_est.npy from tools/gen_depth.py
+
+train:
+  epochs: 150
+  batch_size: 1
+  lr: 0.0001
+  lr_min: 0.000001
+  optimizer: Adam
+  weight_decay: 0.0
+  grad_clip: 1.0
+  eval_every: 5
+  log_freq: 50
+  save_dir: ./experiments/BDGANet_RLFDB
+  resume: null          # path to checkpoint to resume from
+
+loss:
+  # L = L_deapp + L_degeo
+  rec: 1.0              # L1 appearance reconstruction
+  perceptual: 0.5       # lambda_2, weight of perceptual loss
+  contrastive: 1.0      # L_cr
+  dd: 1.0               # depth L1 reconstruction
+  ldr: 1.0              # Laplacian depth reconstruction loss
+  tv: 0.05              # total variation weight
+  reg: 0.1              # lambda_1, L_reg weight inside L_ldr
+  dp: 1.0               # geometry-difference perception loss
+  ap: 1.0               # appearance-difference perception loss
+
+depth_anything:
+  encoder: vitb         # vitb / vits
+  ckpt: ./pretrained/depth_anything_v2_vitb.pth
+  img_size: 518
+  freeze: true
+
+test:
+  save_results: ./results/BDGANet_RLFDB
+  border: 0
