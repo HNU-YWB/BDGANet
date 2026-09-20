@@ -1,4 +1,4 @@
-# BDGANet: Bidirectional Difference-Perception Geometry-Appearance Interaction Network for Light Field Deraining
+# BDGANet: Bidirectional Depth-Guided Appearance Restoration Network for Light Field Deraining
 <img width="1986" height="1117" alt="fig 2" src="https://github.com/user-attachments/assets/725b7f22-bc84-4db2-9278-cf9710f31419" />
 
 Official implementation of the paper **"BDGANet: Bidirectional Difference-Perception Network for Light Field Deraining with Geometry-Appearance Interaction"** 
