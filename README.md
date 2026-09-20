@@ -1,7 +1,8 @@
 # BDGANet: Bidirectional Depth-Guided Appearance Restoration Network for Light Field Deraining
-<img width="1986" height="1117" alt="fig 2" src="https://github.com/user-attachments/assets/725b7f22-bc84-4db2-9278-cf9710f31419" />
+<img width="1982" height="1117" alt="fig 2" src="https://github.com/user-attachments/assets/5ff764fb-a4e5-475d-ab50-cbeb870d8859" />
 
-Official implementation of the paper **"BDGANet: Bidirectional Difference-Perception Network for Light Field Deraining with Geometry-Appearance Interaction"** 
+
+Official implementation of the paper **"BDGANet: Bidirectional Depth-Guided Appearance Restoration Network for Light Field Deraining"** 
 ## 1. Environment
 
 - Python >= 3.8, PyTorch >= 1.12, CUDA 11.6+ (tested on a single NVIDIA RTX 4090)
