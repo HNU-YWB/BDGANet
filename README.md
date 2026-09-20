@@ -1,5 +1,6 @@
 # BDGANet: Bidirectional Difference-Perception Geometry-Appearance
 # Interaction Network for Light Field Deraining
+<img width="1986" height="1117" alt="fig 2" src="https://github.com/user-attachments/assets/725b7f22-bc84-4db2-9278-cf9710f31419" />
 
 Official implementation of the paper **"BDGANet: Bidirectional Difference-Perception Network for Light Field Deraining with Geometry-Appearance Interaction"** 
 ## 1. Environment
@@ -63,36 +64,7 @@ python tools/gen_depth.py --config configs/bdganet_rlfdb.yaml --split test
 
 ## 3. Training
 
-```bash
-python tools/train.py --config configs/bdganet_rlfdb.yaml
-```
-
-Key training settings (as in the paper):
-
-| Setting | Value |
-| --- | --- |
-| Input angular resolution | 5 × 5 |
-| Patch size | 128 × 128 |
-| Batch size | 1 |
-| Optimizer | Adam (β1=0.9, β2=0.999) |
-| Initial LR / min LR | 1e-4 → 1e-6 (cosine annealing) |
-| Epochs | 150 |
-| Loss balancing | λ1 = 0.1 (L_reg), λ2 = 0.5 (L_p) |
-
-Total objective:
-
-```
-L = L_deapp + L_degeo
-L_deapp = L_rec + λ2·L_p + L_cr + L_dp
-L_degeo = L_dd + (L_lap + λ1·L_reg) + L_tv + L_dp + L_ap
-```
-
-- `L_rec`: L1 appearance reconstruction; `L_p`: VGG perceptual loss
-- `L_cr`: contrastive reconstruction loss (pulls `I_out` toward `I_gt`, away from the rainy reference, N=5 VGG scales, weights [1/32,1/16,1/8,1/4,1])
-- `L_dd`: L1 depth reconstruction; `L_lap`: Laplacian depth consistency (composite depth `D̂ = M_occ·D_de + (1−M_occ)·D_gt`)
-- `L_tv`: total variation; `L_dp`: geometry-difference perception; `L_ap`: appearance-difference perception
-
-Checkpoints, TensorBoard logs and best-model selection (by validation PSNR) are written to `experiments/BDGANet_RLFDB/`.
+The training code will be released upon paper acceptance.
 
 ## 4. Evaluation
 
@@ -103,13 +75,7 @@ python tools/test.py --config configs/bdganet_rlfdb.yaml --ckpt experiments/BDGA
 - Restored images are saved to `results/BDGANet_RLFDB/`.
 - PSNR/SSIM are computed on the **center view** against `gt_center.png` (synthetic scenes only).
 
-### Model complexity (Table 3)
-
-```bash
-python tools/benchmark.py --config configs/bdganet_rlfdb.yaml --size 128
-```
-
-## 5. Project structure
+## 4. Project structure
 
 ```
 BDGANet/
@@ -120,26 +86,6 @@ BDGANet/
 ├── tools/              # train / test / gen_depth / convert / benchmark
 ├── scripts/            # pretrained-weight download
 └── README.md
-```
-
-## 6. Notes on reproduction
-
-- The paper reports **34.93 dB / 0.956** on RLFDB, **34.11 dB / 0.965** on RLMB (synthetic), and **11.69 M params / 24.86 GFLOPs**. Exact reproduction depends on the dataset train/test splits, the source of GT depth, and Canny edge settings; numbers may differ slightly.
-- The geometry reconstructor follows the resolution-adaptive encoder-decoder spirit of RADepth; the depth estimator (Depth Anything V2) is used **frozen** and only as an input prior.
-- DA-RERP optionally consumes Canny edges (`model.use_canny: true`); the dataset loader then precomputes edges per view. Default is `false` (the mask network learns edge cues internally).
-- The AVAA bottleneck is set to 16 channels with 8× spatial downsampling as a memory/quality trade-off; adjust `model.bottleneck_ch` and `downsample` if needed.
-
-## 7. Citation
-
-If you find this code useful, please cite:
-
-```bibtex
-@article{bdganet2026,
-  title={BDGANet: Bidirectional Difference-Perception Network for Light Field Deraining with Geometry-Appearance Interaction},
-  author={Zhu, Cong and Zhu, Keni and Xiao, Yao and Yan, Wenbin and Zhang, Xiaogang and Chen, Hua},
-  journal={Neurocomputing},
-  year={2026}
-}
 ```
 
 ## License
